@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+<div class="modal-dialog">
+    <div class="modal-content border-0">
+        <div class="modal-header border-0">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Photo Profile</h5>
+            <button (click)="confirmBox()" type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+            <form class="form-group" [formGroup]="profileModel.uploadImageForm">
+                <div class="row mb-3">
+                    <div class=" col-sm-12 col-5 px-0 profile-img">
+                        <!-- <img  src="{{file}}"> -->
+                        <!-- <img  src="{{ profile.jobseekerImage || 'assets/imgnotavailable.jpg'}}"> -->
+                        <img height="100px" width="100px" [src]="imageUrl">
+                        <button class="btn btn-outline-primary rounded-pill px-3 py-1 ms-3 me-1 fw-bold file-upload-button">
+                            Change Photo <input type="file" #fileInput (change)="uploadPhoto($event)"/>
+                        </button>
+                        <button (click)="resetPhoto()" class="btn btn-outline-primary rounded-pill px-3 py-1 ms-1 fw-bold file-reset-button">
+                            Remove Photo
+                        </button>
+                        <p class="text-danger mt-2">{{file_error}}</p>
+                    </div>
+                    <div class="col-sm-6">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer border-0" [hidden]="invisible">
+            <button (click)="confirmBox()" class="btn btn-outline-primary rounded-pill px-5">
+                Cancel
+            </button>
+            <button (click)="upload()" class="btn btn-primary rounded-pill px-5">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
