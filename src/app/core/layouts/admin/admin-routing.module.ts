@@ -8,6 +8,16 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {
+        path: 'home',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../../../module/admin/base/base.module').then((x) => x.BaseModule)
+      },
+      {
+        path: 'events',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../../../module/admin/events/events.module').then((x) => x.EventsModule)
+      },
+      {
         path: 'job-find',
         canActivate: [AuthGuard],
         loadChildren: () => import('../../../module/admin/job-find/job-find.module').then((x) => x.JobFindModule)

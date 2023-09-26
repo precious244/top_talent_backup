@@ -7,62 +7,50 @@
         </div>
         <div class="modal-body text-center">
             <form class="form-group" [formGroup]="salaryModel.formGroupEditSalary">
+                <label for="IDR" class="form-label">Current Monthly Salary</label>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="IDR" class="form-label">Current Monthly Salary</label>
-                            <select [(ngModel)]="profile.jobseekerSalary.currentCurrency" formControlName="currentCurrency" id="Select" class="form-select">
-                                <option value="{{item.currencySymbol}}" *ngFor="let item of salaryModel.allCurrency">
-                                    {{item.currencyCode}} - <span [innerHtml]="item.currencySymbol"></span>
-                                </option>
-
-                            </select>
-                        </div>
+                    <div class="col-md-3 col-12">
+                        <select [(ngModel)]="profile.jobseekerSalary.currentCurrency" formControlName="currentCurrency"
+                            id="Select" class="form-select col-12">
+                            <option value="{{item.currencySymbol}}" *ngFor="let item of salaryModel.allCurrency">
+                                {{item.currencyCode}} - <span [innerHtml]="item.currencySymbol"></span>
+                            </option>
+                        </select>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="currentSalary" class="form-label"></label>
-                            <input currencyMask [(ngModel)]="profile.jobseekerSalary.currentSalary" formControlName="currentSalary" class="form-control text-position1"
-                                id="currentSalary" [options]="options">
-                            <p class="text-position">(nett) per month</p>
-                        </div>
+                    <div class="col-md-4 col-12 salary">
+                        <input currencyMask [(ngModel)]="profile.jobseekerSalary.currentSalary"
+                            formControlName="currentSalary" class="form-control" id="currentSalary" [options]="options">
+                        <p class="text-position">(nett) per month</p>
                     </div>
                 </div>
+                <label for="select" class="form-label">Expected Monthly Salary</label>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="select" class="form-label">Expected Monthly Salary</label>
-                            <select [(ngModel)]="profile.jobseekerSalary.expectedCurrency" formControlName="expectedCurrency" id="Select" class="form-select">
+                    <div class="col-md-3">
+                            <select [(ngModel)]="profile.jobseekerSalary.expectedCurrency"
+                                formControlName="expectedCurrency" id="Select" class="form-select">
                                 <option value="{{item.currencySymbol}}" *ngFor="let item of salaryModel.allCurrency">
                                     {{item.currencyCode}} - <span [innerHtml]="item.currencySymbol"></span>
                                 </option>
                             </select>
-                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="expectedMinimum" class="form-label"></label>
-                            <input currencyMask [(ngModel)]="profile.jobseekerSalary.expectedMinimum" formControlName="expectedMinimum" class="form-control text-position1"
+                    <div class="col-md-4 salary">
+                            <input currencyMask [(ngModel)]="profile.jobseekerSalary.expectedMinimum"
+                                formControlName="expectedMinimum" class="form-control text-position1"
                                 id="expectedMinimum" [options]="options">
-                            <p class="text-position">
-                                to
-                            </p>
-                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="expectedMaximum" class="form-label"></label>
-                            <input currencyMask [(ngModel)]="profile.jobseekerSalary.expectedMaximum" formControlName="expectedMaximum" class="form-control text-position3"
+                    to
+                    <div class="col-md-4">
+                            <input currencyMask [(ngModel)]="profile.jobseekerSalary.expectedMaximum"
+                                formControlName="expectedMaximum" class="form-control text-position3"
                                 id="exampleInputSalary" [options]="options" required>
                             <p class="text-position4">
                                 (nett) per month
                             </p>
-                        </div>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="modal-footer border-0">
+        <div class="mt-5 modal-footer border-0">
             <button (click)="confirmBox()" class="btn btn-outline-primary rounded-pill px-5">
                 Cancel
             </button>

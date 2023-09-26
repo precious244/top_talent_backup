@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginService } from 'src/app/services/login/login.service';
 import { LoginModel } from './model/login.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   loginModel = new LoginModel();
   isLoading = false;
   formSubmitted = false;
+  rememberMeChecked: boolean = false;
 
   toggleLoading = () => {
     this.isLoading = true;
@@ -31,11 +33,17 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly loginService: LoginService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private cookieService: CookieService
   ) {
   }
 
   ngOnInit(): void {
+    const loginData = this.cookieService.get('loginData');
+    if (loginData) {
+      const savedLoginData = JSON.parse(loginData);
+      this.loginModel.formGroupLogin.patchValue(savedLoginData);
+    }
   }
 
   checkValidation() {
@@ -45,12 +53,16 @@ export class LoginComponent implements OnInit {
     this.loginService.postLogin(this.loginModel.formGroupLogin.value).subscribe(
       (response) => {
         this.authService.saveUserData(response.data.registerJobseekerDTO)
-        this.router.navigate(['main/job-find'])
+        this.router.navigate(['main/home'])
       },
       (error) => {
         this.loginModel.responseLogin = error.error;
       }
     )
+
+    if (this.rememberMeChecked) {
+      this.cookieService.set('loginData', JSON.stringify(this.loginModel.formGroupLogin.value), 30);
+    }
   }
 
   get f(): { [key: string]: AbstractControl } {

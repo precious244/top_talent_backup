@@ -40,13 +40,13 @@ mat-icon {
 // background banner di hp
 @media (max-width: 1199.98px) {
     .banner {
-        background-image: url(../../../../assets/small-banner.png);
+        background-image: url(../../../../../assets/detail-event.png);
     }
 }
 
 @media (min-width: 1200px) {
     .banner {
-        background-image: url(../../../../assets/background-home.png);
+        background-image: url(../../../../../assets/detail-event.png);
 
     }
 }
@@ -78,6 +78,30 @@ mat-icon {
         align-items: center;
         text-align: left;
         z-index: 10;
+        color: white;
+        font-weight: 700;
+
+        p {
+            margin: 0;
+        }
+
+        .bullet {
+            p {
+                font-size: 15px;
+                font-weight: 500;
+            }
+        }
+
+        .text-sm {
+            font-size: 13px;
+            font-weight: 450;
+        }
+
+        .btn {
+            color: white;
+            font-weight: 550;
+            background-image: linear-gradient(to bottom right, #E47B1A, #FFC85C);
+        }
 
         @media (min-width: 992px) {
             .motto-jumbotron {
@@ -123,6 +147,10 @@ mat-icon {
             .tag-btn .btn {
                 margin-top: 10px;
             }
+
+            .second-pricing {
+                margin-top: 8px;
+            }
         }
     }
 }
@@ -135,7 +163,7 @@ mat-icon {
 
     .section-title {
 
-        h3 {
+        h1 {
             font-weight: 800;
         }
 
@@ -147,18 +175,81 @@ mat-icon {
         }
     }
 
+    .section-card {
+        margin-top: 100px;
+    }
+
     .section-body {
+
+        img {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #1731A8;
+        }
+
+
+        .container {
+            button {
+                height: 60px;
+                margin-bottom: 5px;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .card {
+                margin-bottom: 3px !important;
+            }
+        }
+
+        @media (min-width: 767.98px) {
+            .button-2 {
+                margin-top: 20px;
+            }
+        }
+
         .card {
-            background-color: $biru_card;
+            background-color: white;
             border: none;
             border-radius: 20px;
             padding: 10px;
+            height: 450px;
+            margin-top: -100px;
+            margin-bottom: 100px;
+
+
 
             .clock {
                 font-size: 15px;
 
                 img {
                     margin-top: 2px;
+                }
+            }
+
+            .card-img-top {
+                height: 80px;
+                width: 80px;
+                text-align: center;
+            }
+
+            .card-title {
+                font-weight: 700;
+            }
+
+            .card-body {
+
+                p {
+                    margin: 0;
+                }
+
+                .card-text {
+                    font-size: 13px;
+                }
+
+                .card-desc {
+                    font-size: 13px;
                 }
             }
         }
@@ -317,7 +408,6 @@ mat-icon {
 .jobseeker-quote {
     background-image: url(/assets/bannerquote.png);
     background-size: cover;
-    margin-top: 100px;
     margin-bottom: 100px;
 
     .banner-quote {
@@ -460,50 +550,6 @@ mat-icon {
         img {
             padding: 50px 0 0 50px;
             max-width: 300px;
-        }
-    }
-}
-
-.alert-primary {
-    background-color: #09015F;
-    color: white;
-    text-align: center;
-    border: 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 15px 0 10px 0;
-    border-radius: 0;
-    z-index: 99999;
-
-    .btn {
-        font-weight: 500;
-    }
-}
-
-@media (min-width: 992px) {
-    .alert-primary {
-        .container {
-
-            .break-line {
-                display: none;
-            }
-
-            .btn {
-                margin-left: 15px;
-            }
-        }
-    }
-}
-
-@media (max-width: 991.98px) {
-    .alert-primary {
-        padding-top: 30px;
-
-        .container {
-
-            .btn {
-                margin: 5px 0 5px 0;
-            }
         }
     }
 }

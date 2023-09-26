@@ -145,12 +145,12 @@ mat-sidenav {
     mat-sidenav {
         width: 45%;
     }
+}
 
-    // .shortcut-links {
-    //     p {
-    //         visibility: hidden;
-    //     }
-    // }
+@media (max-width: 991.98px) {
+    mat-sidenav {
+        width: 25%;
+    }
 }
 
 .shortcut-links {
@@ -162,9 +162,11 @@ mat-sidenav {
         text-decoration: none;
         color: black;
 
-        img {
-            margin-right: 20px;
-            max-width: 20px;
+        @media (min-width: 768px) {
+            img {
+                margin-right: 20px;
+                max-width: 20px;
+            }
         }
 
         p {
@@ -181,11 +183,26 @@ mat-sidenav {
     }
 }
 
-// mat-sidenav {
-//     padding-top: 106px;
-//     height: 100%;
-//     background-color: white;
-// }
+@media (max-width: 767.98px) {
+    .shortcut-links {
+        a {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 5px;
+            padding-bottom: 15px;
+            // width: 50%;
+
+            img {
+                width: 25px;
+            }
+
+            p {
+                display: none;
+            }
+        }
+    }
+}
 
 mat-sidenav-content {
     padding-top: 5%;
