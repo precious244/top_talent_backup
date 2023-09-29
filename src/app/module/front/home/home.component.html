@@ -20,17 +20,21 @@
                                         <span matPrefix>
                                             <mat-icon class="me-2">search</mat-icon> &nbsp;
                                         </span>
-                                        <input matInput type="text" [(ngModel)]="fill" (keyup.enter)="keJobList()"
+                                        <input matInput type="text">
+                                        <!-- <input matInput type="text" [(ngModel)]="fill" (keyup.enter)="keJobList()"
                                             *ngIf="!authService.isLogin()">
                                         <input matInput type="text" [(ngModel)]="fill" (keyup.enter)="keJobSearch()"
-                                            *ngIf="authService.isLogin()">
+                                            *ngIf="authService.isLogin()"> -->
                                     </mat-form-field>
                                 </ng-container>
-
                                 <button mat-flat-button color="primary" class="btn bg-warning text-white px-3"
+                                >Search</button>
+                                <button mat-flat-button color="primary" class="btn bg-warning text-white px-3"
+                                >Search</button>
+                                <!-- <button mat-flat-button color="primary" class="btn bg-warning text-white px-3"
                                     (click)="keJobList()" *ngIf="!authService.isLogin()">Search</button>
                                 <button mat-flat-button color="primary" class="btn bg-warning text-white px-3"
-                                    (click)="keJobSearch()" *ngIf="authService.isLogin()">Search</button>
+                                    (click)="keJobSearch()" *ngIf="authService.isLogin()">Search</button> -->
                             </section>
                         </div>
                     </div>
@@ -170,7 +174,7 @@
             <div class="col-md-6 jobseeker-content py-5 justify-content-center align-self-center">
                 <h1 class="my-1 ">Are you an employer?</h1>
                 <h2 class="my-3">Find the Toptalent to get your company’s business growing</h2>
-                <a href="https://toptalentapp.com/login">
+                <a href="http://54.251.83.205/login">
                     <button type="button" class="btn btn-biru rounded-pill px-5 mt-1">
                         Find
                         Talent

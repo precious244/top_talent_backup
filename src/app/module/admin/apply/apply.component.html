@@ -1,12 +1,12 @@
-<div class="container pt-5" *ngIf="!isUploaded">
+<div class="container pt-5" *ngIf="step1">
     <div class="row row-centered">
         <div class="item">
             <div class="content">
-                <h6 class="text-center hw">Apply to this job ?</h6>
+                <h6 class="text-center text-title">Apply to this job ?</h6>
                 <img class="image-doc" src="assets/pdf.png" alt="image">
             </div>
             <div class="col-md-6 col-centered">
-                <p class="text-center hw1">
+                <p class="text-center text-sub-title">
                     Your CV and Profile will be submitted for the
                     <span>{{ applyModel.applyModelForm.controls['jobName'].value }}</span>
                     at <span>{{ applyModel.applyModelForm.controls['recruiterCompany'].value }} </span>
@@ -14,21 +14,101 @@
             </div>
             <div class="input-group-append">
                 <button class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button"
-                    (click)="openUploadCv()" *ngIf="!isApplied">Upload CV</button>
-                <button class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button"
-                    (click)="putUpload()" *ngIf="isApplied">Submit Application</button>
+                    (click)="openUploadCv()">Upload CV</button>
             </div>
         </div>
     </div>
 </div>
+
 <div class="container pt-5" *ngIf="isUploaded">
     <div class="row row-centered">
         <div class="item">
             <div class="content">
-                <h6 class="text-center hw">Your application is sent!</h6>
+                <h6 class="text-center text-title">Your CV has been submitted!</h6>
+                <img class="image-doc" src="assets/pdf.png" alt="image">
+            </div>
+            <div class="col-md-6 col-centered">
+                <p class="text-center text-sub-title">
+                    You can review or update your CV at
+                    <a (click)="routingToProfile()" style="cursor: pointer; color: #006EFF;">Your Profile</a>
+                </p>
+            </div>
+            <div class="input-group-append">
+                <button class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button"
+                    (click)="continueToStep2()">Continue
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M13.2688 3.6689C13.5689 3.36894 13.9758 3.20044 14.4 3.20044C14.8243 3.20044 15.2312 3.36894 15.5312 3.6689L22.7312 10.8689C23.0312 11.1689 23.1997 11.5758 23.1997 12.0001C23.1997 12.4244 23.0312 12.8313 22.7312 13.1313L15.5312 20.3313C15.2295 20.6228 14.8253 20.784 14.4058 20.7804C13.9863 20.7767 13.585 20.6085 13.2883 20.3118C12.9917 20.0152 12.8234 19.6139 12.8198 19.1943C12.8161 18.7748 12.9774 18.3707 13.2688 18.0689L17.6 13.6001H2.40005C1.9757 13.6001 1.56874 13.4315 1.26868 13.1315C0.96862 12.8314 0.800049 12.4244 0.800049 12.0001C0.800049 11.5758 0.96862 11.1688 1.26868 10.8687C1.56874 10.5687 1.9757 10.4001 2.40005 10.4001H17.6L13.2688 5.9313C12.9689 5.63125 12.8004 5.22436 12.8004 4.8001C12.8004 4.37584 12.9689 3.96894 13.2688 3.6689Z" fill="white"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="step2">
+    <div class="row mt-4 ms-4 me-4">
+        <h4 class="title-screening"><  Step 2 - Screening Questions</h4>
+    </div>
+    <div class="row mt-5 ms-4 me-4">
+        <h4 class="title-screening">Screening Questions</h4>
+    </div>
+    <div class="card mt-4 ms-4 me-4 section-white">
+        <div class="card-body">
+            <p class="label-text">Ceritakan alasan Anda ingin bergabung di perusahaan kami!
+                <span style="color: var(--red-notif, #EB5757);">*</span>
+            </p>
+            <div class="input-container">
+                <input class="input-text" [(ngModel)]="textInput" (input)="countCharacters()" placeholder="Your Answer" maxlength="200">
+                <div class="character-count">{{ characterCount }} / 200</div>       
+            </div>     
+        </div>
+    </div>
+    <div class="card mt-4 ms-4 me-4 section-white">
+        <div class="card-body">
+            <p class="label">Apakah kamu memiliki pengalaman kerja 3 tahun di bidang IT?
+                <span style="color: var(--red-notif, #EB5757);">*</span>
+            </p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Default radio
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Default checked radio
+                </label>
+            </div> 
+        </div>
+    </div>
+    <div class="row me-4">
+        <div class="d-flex justify-content-end">
+            <button (click)="continueToStep3()" class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button">
+                Continue
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M13.2688 3.6689C13.5689 3.36894 13.9758 3.20044 14.4 3.20044C14.8243 3.20044 15.2312 3.36894 15.5312 3.6689L22.7312 10.8689C23.0312 11.1689 23.1997 11.5758 23.1997 12.0001C23.1997 12.4244 23.0312 12.8313 22.7312 13.1313L15.5312 20.3313C15.2295 20.6228 14.8253 20.784 14.4058 20.7804C13.9863 20.7767 13.585 20.6085 13.2883 20.3118C12.9917 20.0152 12.8234 19.6139 12.8198 19.1943C12.8161 18.7748 12.9774 18.3707 13.2688 18.0689L17.6 13.6001H2.40005C1.9757 13.6001 1.56874 13.4315 1.26868 13.1315C0.96862 12.8314 0.800049 12.4244 0.800049 12.0001C0.800049 11.5758 0.96862 11.1688 1.26868 10.8687C1.56874 10.5687 1.9757 10.4001 2.40005 10.4001H17.6L13.2688 5.9313C12.9689 5.63125 12.8004 5.22436 12.8004 4.8001C12.8004 4.37584 12.9689 3.96894 13.2688 3.6689Z" fill="white"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-5" *ngIf="step3">
+    <div class="row mt-4 ms-4 me-4">
+        <h4 class="title-screening"><  Step 3 - Review Your Application</h4>
+    </div>
+</div>
+
+<div class="container pt-5" *ngIf="step4">
+    <div class="row row-centered">
+        <div class="item">
+            <div class="content">
+                <h6 class="text-center text-title">Your application is sent!</h6>
                 <img class="image-doc" src="assets/emailsent.png" alt="image">
             </div>
             <div class="col-md-6 col-centered">
+
                 <p class="text-center hw1">Your application for <span>{{
                         applyModel.applyModelForm.controls['jobName'].value }}</span> at <span>{{
                         applyModel.applyModelForm.controls['recruiterCompany'].value }} </span> has

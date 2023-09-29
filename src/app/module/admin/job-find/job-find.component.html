@@ -93,27 +93,27 @@
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-1 photo-border">
-                                    <img src={{job.recruiterImageLink}} alt="">
+                                    <img src={{job.officeImage}} alt="">
                                 </div>
                                 <div class="col-md-7">
                                     <h5><a routerLink="detail/{{job.jobId}}" class="text-dark"> {{
                                             job.jobName
                                             }}
                                             <span class="badge ms-1"
-                                            [ngStyle]="{'color': (job.jobPosition === 'Contractual') ? '#006EFF' : 
-                                            (job.jobPosition === 'Freelance') ? '#E051C1' : 
-                                            (job.jobPosition === 'Internship') ? '#ff9900' : 
-                                            (job.jobPosition === 'Part time') ? '#16C39A' : 
-                                            (job.jobPosition === 'Full time') ? 'green' : ''}">
-                                            {{job.jobPosition}}</span>
+                                            [ngStyle]="{'color': (job.jobType === 'Contractual') ? '#006EFF' : 
+                                            (job.jobType === 'Freelance') ? '#E051C1' : 
+                                            (job.jobType === 'Internship') ? '#ff9900' : 
+                                            (job.jobType === 'Part time') ? '#16C39A' : 
+                                            (job.jobType === 'Full time') ? 'green' : ''}">
+                                            {{job.jobType}}</span>
                                         </a>
                                     </h5>
                                     <p href="" class="recruiter-company">
-                                        {{ job.recruiterCompany }}
+                                        {{ job.officeName }}
                                     </p>
-                                    <p class="text-secondary pt-2">{{ job.jobAddress }}</p>
+                                    <p class="text-secondary pt-2">{{ job.cityRegencyName }}, {{job.countryName}}</p>
                                     <p>Rp {{ job.jobSalary | currencyFormat }}</p>
-                                    <span class="text-secondary">{{ job.createdAt }}</span>
+                                    <span class="text-secondary">{{ job.postDate }}</span>
                                 </div>
                             </div>
                         </div>
