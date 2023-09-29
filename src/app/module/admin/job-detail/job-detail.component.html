@@ -55,9 +55,8 @@
     <hr class="my-5">
     <div class="section-company">
         <div class="mb-4">
-
             <h4 class="fw-bolder">About the company</h4>
-            <p>{{job.officeDesc}}</p>
+            <p style="max-width: 500px;" [innerHTML]="job.officeDesc">{{job.officeDesc}}</p>
         </div>
         <h5 class="fw-bold">
             Staff
@@ -81,7 +80,6 @@
         <p [innerHTML]="job.officeAddress">{{ job.officeAddress}}</p>
 
         <div class="icon">
-
             <a href="{{ job.officeFb}}" target="_blank"><img src="assets/fb.svg" alt=""></a>
             <a href="{{ job.officeLinkedIn}}" target="_blank"><img src="assets/linkedin.svg" alt=""></a>
             <a href="officeIg" target="_blank"><img src="assets/instagram.svg" alt=""></a>

@@ -11,6 +11,9 @@ export class ApplyModel {
             jobseekerResume: new FormControl('', [Validators.required]),
             jobName: new FormControl(''),
             recruiterCompany: new FormControl(''),
+            screeningId :new FormControl(''),
+            payloads :new FormControl(''),
+            questionAnswer :new FormControl('')
         }
     );
 

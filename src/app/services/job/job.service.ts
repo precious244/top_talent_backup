@@ -62,4 +62,16 @@ export class JobService {
     .set("jobId", data.jobId);
     return this.http.get('http://54.251.83.205:9091/api/v1/application/job/applied/detail', { params: params,  headers: this.headers});
   }
+
+  public applyJob(body: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    console.log(JSON.stringify(body))
+
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/apply-job-posting', JSON.stringify(body), httpOptions);
+  }
 }

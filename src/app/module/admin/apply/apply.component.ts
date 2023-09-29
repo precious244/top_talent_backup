@@ -6,6 +6,10 @@ import { JobService } from 'src/app/services/job/job.service';
 import { UploadFileService } from 'src/app/services/upload-cv/upload-file.service';
 import { ModalUploadCvComponent } from 'src/app/shared/component/modal/modal-upload-cv/modal-upload-cv.component';
 import { ApplyModel } from './model/apply.model';
+import { ProfileService } from 'src/app/services/profile/profile.service';
+import { ProfileModel } from '../profile/model/profile.model';
+import { ModalPersonalInformationComponent } from 'src/app/shared/component/modal/modal-personal-information/modal-personal-information.component';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-apply',
@@ -15,7 +19,7 @@ import { ApplyModel } from './model/apply.model';
 export class ApplyComponent implements OnInit {
 
   applyModel = new ApplyModel();
-  jobName: any;
+  jobName!: string;
   recruiterCompany: any;
   step1: boolean = false;
   isUploaded: boolean = false;
@@ -23,13 +27,19 @@ export class ApplyComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   userData: any = {};
-  jobseekerId: any;
-  jobId: any;
+  jobseekerId!: number;
+  jobId!: number;
   submitted: boolean = false;
+  screeningQuestions : any = {};
 
   textInput: string = '';
   characterCount: number = 0;
 
+  profileModel = new ProfileModel();
+  profile: any = {};
+  screeningId!:number;
+  form!: FormGroup;
+  
   countCharacters() {
     // Menghitung jumlah karakter
     const maxLength = 200;
@@ -49,13 +59,26 @@ export class ApplyComponent implements OnInit {
     public readonly router: Router,
     private activatedRoute: ActivatedRoute,
     public readonly authService: AuthService,
+    public readonly profileService: ProfileService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     if (this.authService.isLogin()) {
       this.userData = this.authService.loadUserData()
     }
-
+    this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
+    this.profileService.getUserProfile(this.applyModel.applyForm.value).subscribe(
+      (response: any) => {
+        this.profileModel.userProfile = response.data;
+        this.profile = this.profileModel.userProfile;
+        this.profileModel.skills = response.data.skills;
+        this.profileModel.salary = response.data.jobseekerSalary;
+        this.profileModel.education = response.data.jobseekerEducation;
+        this.profileModel.experience = response.data.jobseekerExperience;
+      },
+      (error) => {
+      })
     this.activatedRoute.paramMap.subscribe((data: any) => {
       let id = data.params.id,
         params = {
@@ -66,6 +89,8 @@ export class ApplyComponent implements OnInit {
       this.jobService.getDetailJob(params).subscribe(
         (response: any) => {
           this.applyModel.applyModelForm.patchValue(response.data);
+          this.screeningQuestions = response.data.screeningQuestions
+          console.log(this.screeningQuestions)
         },
         (error) => {
         })
@@ -86,9 +111,54 @@ export class ApplyComponent implements OnInit {
           },
           (error) => {
             // this.isApplied = false;
-          })})
-        }
+          })
+        })
+        this.screeningQuestions = [
+          { screeningId: '', questionAnswer: '' }
+        ]
+        this.activatedRoute.paramMap.subscribe((data: any) => {
+          let id = data.params.id,
+            params = {
+              jobId: id,
+            }    
+        this.form = this.fb.group({
+          jobseekerId: this.userData.jobseekerId,
+          jobId:params,
+          payloads: [this.screeningQuestions]
+        })
+      })
+    }
 
+      applyJob() {
+        this.activatedRoute.paramMap.subscribe((data: any) => {
+          let id = data.params.id,
+            params = {
+              jobId: id,
+              jobStatus: "visible",
+            };
+      
+          this.jobService.getDetailJob(params).subscribe(
+            (response: any) => {
+              this.applyModel.applyModelForm.patchValue(response.data);
+              // Sekarang Anda bisa melakukan permintaan untuk mengirim data aplikasi
+              this.jobService.applyJob(this.form.value).subscribe(
+                (response) => {
+                  console.log(this.applyModel.applyModelForm.value);
+                  // Handle respons dari pengiriman aplikasi di sini
+                }
+              );
+            }
+          );
+        });
+      }
+      
+
+  openEditPersonalInformation() {
+      const modal = this.modalService.open(
+        ModalPersonalInformationComponent, { size: 'lg' });
+      modal.componentInstance.data = this.profileModel.userProfile;
+    }
+  
   openUploadCv() {
     const modal = this.modalService.open(
       ModalUploadCvComponent, { size: 'md' });
@@ -114,27 +184,31 @@ export class ApplyComponent implements OnInit {
 
   continueToStep3(){
     this.step3 = true;
-    this.step1 = false
     this.step2 = false
     this.isUploaded = false;
   }
 
-  putUpload() {
-    this.activatedRoute.paramMap.subscribe((data: any) => {
-      let id = data.params.id,
-        params = {
-          jobId: id,
-        }
-      this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
-      this.applyModel.applyForm.controls['jobId'].setValue(data.params);
-      this.jobService.putApplyJob(this.applyModel.applyForm.value, params).subscribe(
-        (response: any) => {
-          this.step2 = true;
-        }
-      );
-    }
-    )
+  continueToStep4(){
+    this.step4 = true;
+    this.step3 = false;
   }
+
+  // putUpload() {
+  //   this.activatedRoute.paramMap.subscribe((data: any) => {
+  //     let id = data.params.id,
+  //       params = {
+  //         jobId: id,
+  //       }
+  //     this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
+  //     this.applyModel.applyForm.controls['jobId'].setValue(data.params);
+  //     this.jobService.putApplyJob(this.applyModel.applyForm.value, params).subscribe(
+  //       (response: any) => {
+  //         this.step2 = true;
+  //       }
+  //     );
+  //   }
+  //   )
+  // }
 
   routingToScreeningQuestion() {
     this.router.navigate(['screening-question'])

@@ -208,7 +208,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="section-white">
+                <section class="section-white language">
                     <div class="d-flex">
                         <h4 class="me-auto">Language</h4>
                         <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
@@ -248,7 +248,7 @@
                 <section class="upload-cv section-white" *ngIf="!isUploaded">
                     <div class="d-flex">
                         <h4 class="me-auto">CV or Resume</h4>
-                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit" (click)=" openUploadCv()"><img
+                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit" (click)="openUploadCv()"><img
                                 src="assets/plus.svg" alt="">
                             <span> Add Resume</span></button>
                     </div>
@@ -275,10 +275,10 @@
                                     src="assets/small-pdf.svg" alt="">
                                 {{profile.jobseekerResumeName}}</p>
                             <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit ms-auto"
-                                (click)=" openUploadCv()">
+                                (click)="openUploadCv()">
                                 Update </button>
                             <button class="btn btn-outline-danger rounded-pill px-3 py-1 ms-3 me-1 fw-bold px-4"
-                                (click)=" resetCv()" hidden>
+                                (click)="resetCv()" hidden>
                                 Delete </button>
                         </div>
                         <br>
@@ -350,3 +350,6 @@
         </div>
     </div>
 </section>
+
+
+

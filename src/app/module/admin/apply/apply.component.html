@@ -45,46 +45,53 @@
     </div>
 </div>
 
-<div class="container" *ngIf="step2">
+<div class="container" *ngIf="step2" [formGroup]="form">
     <div class="row mt-4 ms-4 me-4">
-        <h4 class="title-screening"><  Step 2 - Screening Questions</h4>
+        <h4 class="title-screening">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M23.0457 27.513C23.3269 27.2317 23.4849 26.8502 23.4849 26.4525C23.4849 26.0547 23.3269 25.6733 23.0457 25.392L15.6207 17.967L23.0457 10.542C23.3189 10.2591 23.4701 9.88016 23.4667 9.48687C23.4633 9.09357 23.3055 8.71735 23.0274 8.43924C22.7493 8.16113 22.3731 8.00338 21.9798 7.99996C21.5865 7.99654 21.2076 8.14773 20.9247 8.42097L12.4392 16.9065C12.158 17.1878 12 17.5692 12 17.967C12 18.3647 12.158 18.7462 12.4392 19.0275L20.9247 27.513C21.206 27.7942 21.5874 27.9521 21.9852 27.9521C22.3829 27.9521 22.7644 27.7942 23.0457 27.513Z" fill="#111111"/>
+            </svg>
+            Step 2 - Screening Questions
+        </h4>
     </div>
     <div class="row mt-5 ms-4 me-4">
         <h4 class="title-screening">Screening Questions</h4>
     </div>
-    <div class="card mt-4 ms-4 me-4 section-white">
-        <div class="card-body">
-            <p class="label-text">Ceritakan alasan Anda ingin bergabung di perusahaan kami!
-                <span style="color: var(--red-notif, #EB5757);">*</span>
-            </p>
-            <div class="input-container">
-                <input class="input-text" [(ngModel)]="textInput" (input)="countCharacters()" placeholder="Your Answer" maxlength="200">
-                <div class="character-count">{{ characterCount }} / 200</div>       
-            </div>     
-        </div>
-    </div>
-    <div class="card mt-4 ms-4 me-4 section-white">
-        <div class="card-body">
-            <p class="label">Apakah kamu memiliki pengalaman kerja 3 tahun di bidang IT?
-                <span style="color: var(--red-notif, #EB5757);">*</span>
-            </p>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Default radio
-                </label>
+    <div *ngFor="let screening of screeningQuestions">
+        <div class="card mt-4 ms-4 me-4 section-white">
+            Untuk pertanyaan tipe teks
+            <div class="card-body" *ngIf="screening.questionType === 'Text'">
+                <p class="label-text">{{screening.questionName}}
+                    <span style="color: var(--red-notif, #EB5757);">*</span>
+                </p>
+                <div class="input-container">
+                    <input formControlName="payloads"  class="input-text" [(ngModel)]="textInput" (input)="countCharacters()" placeholder="Your Answer" maxlength="200">
+                    <div class="character-count">{{ characterCount }} / 200</div>       
+                </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Default checked radio
-                </label>
-            </div> 
+            <!-- Untuk pertanyaan tipe opsi -->
+            <div class="card-body" *ngIf="screening.questionType === 'Options'">
+                <p class="label">{{screening.questionName}}
+                    <span style="color: var(--red-notif, #EB5757);">*</span>
+                </p>
+                <div class="form-check">
+                    <input formControlName="payloads.questionAnswer" value="Yes" class="form-check-input" type="radio">
+                    <label class="form-check-label">
+                    Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input formControlName="payloads.questionAnswer" value="No" class="form-check-input" type="radio">
+                    <label class="form-check-label">
+                        No
+                    </label>
+                </div> 
+            </div>
         </div>
     </div>
     <div class="row me-4">
         <div class="d-flex justify-content-end">
-            <button (click)="continueToStep3()" class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button">
+            <button (click)="applyJob()" class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button">
                 Continue
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M13.2688 3.6689C13.5689 3.36894 13.9758 3.20044 14.4 3.20044C14.8243 3.20044 15.2312 3.36894 15.5312 3.6689L22.7312 10.8689C23.0312 11.1689 23.1997 11.5758 23.1997 12.0001C23.1997 12.4244 23.0312 12.8313 22.7312 13.1313L15.5312 20.3313C15.2295 20.6228 14.8253 20.784 14.4058 20.7804C13.9863 20.7767 13.585 20.6085 13.2883 20.3118C12.9917 20.0152 12.8234 19.6139 12.8198 19.1943C12.8161 18.7748 12.9774 18.3707 13.2688 18.0689L17.6 13.6001H2.40005C1.9757 13.6001 1.56874 13.4315 1.26868 13.1315C0.96862 12.8314 0.800049 12.4244 0.800049 12.0001C0.800049 11.5758 0.96862 11.1688 1.26868 10.8687C1.56874 10.5687 1.9757 10.4001 2.40005 10.4001H17.6L13.2688 5.9313C12.9689 5.63125 12.8004 5.22436 12.8004 4.8001C12.8004 4.37584 12.9689 3.96894 13.2688 3.6689Z" fill="white"/>
@@ -94,11 +101,126 @@
     </div>
 </div>
 
-<div class="container pt-5" *ngIf="step3">
-    <div class="row mt-4 ms-4 me-4">
-        <h4 class="title-screening"><  Step 3 - Review Your Application</h4>
+<section class="" *ngIf="step3">
+    <div class="contain">
+        <div class="row">
+            <h4 class="title-screening mt-4 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <path d="M23.0457 27.513C23.3269 27.2317 23.4849 26.8502 23.4849 26.4525C23.4849 26.0547 23.3269 25.6733 23.0457 25.392L15.6207 17.967L23.0457 10.542C23.3189 10.2591 23.4701 9.88016 23.4667 9.48687C23.4633 9.09357 23.3055 8.71735 23.0274 8.43924C22.7493 8.16113 22.3731 8.00338 21.9798 7.99996C21.5865 7.99654 21.2076 8.14773 20.9247 8.42097L12.4392 16.9065C12.158 17.1878 12 17.5692 12 17.967C12 18.3647 12.158 18.7462 12.4392 19.0275L20.9247 27.513C21.206 27.7942 21.5874 27.9521 21.9852 27.9521C22.3829 27.9521 22.7644 27.7942 23.0457 27.513Z" fill="#111111"/>
+                  </svg>
+                Step 3 - Review Your Application</h4>
+            <div class="col-md-12">
+                <section class="personal-information section-white">
+                    <div class="d-flex">
+                        <h4 class="me-auto">Personal Information</h4>
+                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit ms-auto"
+                            (click)="openEditPersonalInformation()">Edit</button>
+                    </div>
+                    <div class="row mt-4">
+                        <div class=" col-xs-2 col-sm-2 col-md-2 col-xl-1  col-12 text-center ">
+                            <button class="_aadn">
+                                <img src="{{profile.jobseekerImage || 'assets/imgnotavailable.jpg'}}" alt="">
+                            </button>
+                            </div>
+                        <div class="col-sm-11 profile-detail">
+                            <div class="row jobseeker-name">
+                                <h4>{{ profile.jobseekerName }}
+                                </h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-12 info-name ">
+                                    <p> {{profile.jobseekerProfession || "not filled yet"}}</p>
+                                    <p>{{ profile.cityName || "not filled yet"}},
+                                        {{profile.countryName || "not filled yet"}}
+                                    </p>
+                                    <div class="d-flex statusHijau" *ngIf="profile.jobseekingStatus == 1">
+                                        <mat-icon>lens</mat-icon>
+                                        <p>I’m Actively Applying</p>
+                                    </div>
+                                    <div class="d-flex statusKuning" *ngIf="profile.jobseekingStatus == 2">
+                                        <mat-icon>lens</mat-icon>
+                                        <p>Flexible, I’m just looking around</p>
+                                    </div>
+                                    <div class="d-flex statusMerah" *ngIf="profile.jobseekingStatus == 3">
+                                        <mat-icon>lens</mat-icon>
+                                        <p>I’m not looking for jobs</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-12 info-img">
+                                    <p>{{ profile.jobseekerPhone || "not filled yet" }}</p>
+                                    <p>{{ profile.jobseekerEmail || "not filled yet" }}</p>
+                                    <a href="{{ profile.jobseekerLinkedin }}" target="_blank"><img
+                                            src="assets/linkedin.svg" alt="" class="me-1"></a>
+                                    <a href="{{ profile.jobseekerInstagram }}" target="_blank"><img
+                                            src="assets/instagram.svg" alt="" class="me-1"></a>
+                                    <a href="{{ profile.jobseekerFacebook }}" target="_blank"><img
+                                            src="assets/image/facebookicon.svg" alt=""></a>
+                                    <a href="{{ profile.jobseekerTwitter }}" target="_blank"><img
+                                            src="assets/image/twitter-icon.svg" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="upload-cv section-white">
+                    <div class="d-flex">
+                        <h4 class="me-auto">CV or Resume</h4>
+                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit ms-auto"
+                        (click)="openUploadCv()"> Edit </button>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="d-flex info-img">
+                            <p type="text" style="color: #006EFF;" *ngIf="profile.jobseekerResume"><img
+                                    src="assets/small-pdf.svg" alt="">
+                                {{profile.jobseekerResumeName}}</p>
+                        </div>
+                        <br>
+                        <br>
+                        <label for="" class="form-label">
+                            <i class="text-secondary">
+                                Acceptable file types are DOC, DOCX and PDF that is up to 10MB.
+                            </i>
+                        </label>
+                    </div>
+                </section>
+                <section class="upload-cv section-white">
+                    <div class="d-flex">
+                        <h4 class="me-auto">Screening Questions Responses</h4>
+                        <button class="btn btn-sm text-white btn-primary rounded-pill px-4 btn-edit ms-auto">
+                            Edit 
+                        </button>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <p class="text-secondary" style="font-weight: 500;">
+                                Ceritakan alasan Anda ingin bergabung di perusahaan kami!
+                            </p>
+                            <p style="font-weight: 500;">
+                                Karena, saya ingin mengembangkan keterampilan di bidang IT lebih mendalam 
+                            </p>
+                            <p class="text-secondary" style="font-weight: 500;">
+                                Apakah kamu memiliki pengalaman kerja 3 tahun di bidang IT?
+                            </p>
+                            <p style="font-weight: 500;">
+                                Yes
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <div class="row mt-4">
+                    <div class="d-flex justify-content-end">
+                        <button (click)="continueToStep4()" class="btn btn-sm text-white btn-primary rounded-pill px-4">
+                            Submit Application
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M13.2686 3.6689C13.5686 3.36894 13.9755 3.20044 14.3998 3.20044C14.8241 3.20044 15.231 3.36894 15.531 3.6689L22.731 10.8689C23.031 11.1689 23.1995 11.5758 23.1995 12.0001C23.1995 12.4244 23.031 12.8313 22.731 13.1313L15.531 20.3313C15.2292 20.6228 14.8251 20.784 14.4056 20.7804C13.986 20.7767 13.5847 20.6085 13.2881 20.3118C12.9914 20.0152 12.8232 19.6139 12.8195 19.1943C12.8159 18.7748 12.9772 18.3707 13.2686 18.0689L17.5998 13.6001H2.3998C1.97546 13.6001 1.56849 13.4315 1.26843 13.1315C0.968376 12.8314 0.799805 12.4244 0.799805 12.0001C0.799805 11.5758 0.968376 11.1688 1.26843 10.8687C1.56849 10.5687 1.97546 10.4001 2.3998 10.4001H17.5998L13.2686 5.9313C12.9687 5.63125 12.8001 5.22436 12.8001 4.8001C12.8001 4.37584 12.9687 3.96894 13.2686 3.6689Z" fill="white"/>
+                            </svg> 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 <div class="container pt-5" *ngIf="step4">
     <div class="row row-centered">
