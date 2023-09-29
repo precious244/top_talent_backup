@@ -8,8 +8,8 @@
             <div class="col-md-6 col-centered">
                 <p class="text-center text-sub-title">
                     Your CV and Profile will be submitted for the
-                    <a href="">{{ applyModel.applyModelForm.controls['jobName'].value }}</a>
-                    at <a href="">{{ applyModel.applyModelForm.controls['recruiterCompany'].value }} </a>
+                    <span>{{ applyModel.applyModelForm.controls['jobName'].value }}</span>
+                    at <span>{{ applyModel.applyModelForm.controls['recruiterCompany'].value }} </span>
                 </p>
             </div>
             <div class="input-group-append">
@@ -108,9 +108,10 @@
                 <img class="image-doc" src="assets/emailsent.png" alt="image">
             </div>
             <div class="col-md-6 col-centered">
-                <p class="text-center text-sub-title">Your application for <a href="">{{
-                        applyModel.applyModelForm.controls['jobName'].value }}</a> at <a href="">{{
-                        applyModel.applyModelForm.controls['recruiterCompany'].value }} </a> has
+
+                <p class="text-center hw1">Your application for <span>{{
+                        applyModel.applyModelForm.controls['jobName'].value }}</span> at <span>{{
+                        applyModel.applyModelForm.controls['recruiterCompany'].value }} </span> has
                     been submitted.
                     We’ll notify you about the outcome of your application within 2 weeks.</p>
             </div>

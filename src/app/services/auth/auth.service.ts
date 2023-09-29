@@ -15,21 +15,21 @@ export class AuthService {
 
     
   saveUserData(userData: any) {
-    sessionStorage.setItem('login', JSON.stringify(userData))
+    localStorage.setItem('login', JSON.stringify(userData))
   }
 
   loadUserData() {
-    const loginData = sessionStorage.getItem('login')
+    const loginData = localStorage.getItem('login')
     return JSON.parse(loginData ? loginData : '');
   }
 
   isLogin() {
-    const loginData = sessionStorage.getItem('login')
+    const loginData = localStorage.getItem('login')
     return loginData !== null;
   }
 
   logOut() {
-    sessionStorage.clear()
+    localStorage.clear()
     this.router.navigate([''])
   }
 }

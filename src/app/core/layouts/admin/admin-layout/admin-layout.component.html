@@ -22,6 +22,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" routerLink="events/">TopEvents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://toptalentapp.com/" hidden>TopArticles</a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     <li class="nav-item dropdown notif" hidden>
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -61,6 +69,9 @@
     <mat-sidenav mode="side" [(opened)]="opened">
         <div class="sidebar">
             <div class="shortcut-links">
+                <a [routerLinkActive]="'active'" routerLink="home/"><img src="assets/home.svg" alt="">
+                    <p>Home</p>
+                </a>
                 <a [routerLinkActive]="'active'" routerLink="job-find/"><img src="assets/find2.svg" alt="">
                     <p>Find Jobs</p>
                 </a>
@@ -72,9 +83,6 @@
                         src="assets/bag.svg" alt="">
                     <p>Applied Jobs</p>
                 </a>
-                <a href="" hidden><img src="assets/save.svg" alt="">
-                    <p>Saved Jobs</p>
-                </a>
             </div>
         </div>
     </mat-sidenav>
@@ -82,7 +90,6 @@
         <main>
             <router-outlet></router-outlet>
         </main>
-
     </mat-sidenav-content>
 </mat-sidenav-container>
 
