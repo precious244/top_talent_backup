@@ -4,23 +4,23 @@
             <div class="col-md-12">
                 <div class="row pb-4">
                     <div class="col-md-1 photo-border">
-                        <img src="https://toptalentapp.com:9091/resources/photo/{{job.recruiterImage}}" alt="">
+                        <img src="{{job.officeImage}}" alt="">
                     </div>
                     <div class="col-md-7 mx-3">
                         <h5>{{ job.jobName }}
                             <span class="badge ms-1"
-                                [ngStyle]="{'color': (job.jobPosition === 'Contractual') ? '#006EFF' : 
-                                (job.jobPosition === 'Freelance') ? '#E051C1' : 
-                                (job.jobPosition === 'Internship') ? '#ff9900' : 
-                                (job.jobPosition === 'Part time') ? '#16C39A' : 
-                                (job.jobPosition === 'Full time') ? 'green' : ''}">
-                                {{job.jobPosition}}</span></h5>
+                                [ngStyle]="{'color': (job.jobType === 'Contractual') ? '#006EFF' : 
+                                (job.jobType === 'Freelance') ? '#E051C1' : 
+                                (job.jobType === 'Internship') ? '#ff9900' : 
+                                (job.jobType === 'Part time') ? '#16C39A' : 
+                                (job.jobType === 'Full time') ? 'green' : ''}">
+                                {{job.jobType}}</span></h5>
                         <a href="">
-                            {{ job.recruiterCompany }}
+                            {{ job.officeName }}
                         </a>
                         <p class="text-secondary pt-2">{{ job.jobAddress }}</p>
-                        <p>Rp {{ job.jobSalary }}</p>
-                        <span class="text-secondary">{{ job.createdAt }}</span>
+                        <p>Rp {{ job.jobSalary }} - {{job.jobSalaryMax}}</p>
+                        <span class="text-secondary">{{ job.postDate }}</span>
                     </div>
                 </div>
                 <div class="d-flex">
@@ -57,35 +57,35 @@
         <div class="mb-4">
 
             <h4 class="fw-bolder">About the company</h4>
-            <p>{{job.recruiterDesc}}</p>
+            <p>{{job.officeDesc}}</p>
         </div>
         <h5 class="fw-bold">
             Staff
         </h5>
-        <p>{{ job.recruiterStaff}}</p>
+        <p>{{ job.officeStaff}}</p>
         <h5 class="fw-bold">
             Industry
         </h5>
-        <p [innerHTML]="job.recruiterIndustry">{{ job.recruiterIndustry}}</p>
+        <p [innerHTML]="job.businessField">{{ job.businessField}}</p>
         <h5 class="fw-bold">
             Culture
         </h5>
-        <p [innerHTML]="job.recruiterCulture">{{ job.recruiterCulture}}</p>
+        <p [innerHTML]="job.officeCulture">{{ job.officeCulture}}</p>
         <h5 class="fw-bold">
             Benefit
         </h5>
-        <p [innerHTML]="job.recruiterBenefit">{{ job.recruiterBenefit}}</p>
+        <p [innerHTML]="job.officeBenefit">{{ job.officeBenefit}}</p>
         <h5 class="fw-bold">
             Address
         </h5>
-        <p [innerHTML]="job.recruiterAddress">{{ job.recruiterAddress}}</p>
+        <p [innerHTML]="job.officeAddress">{{ job.officeAddress}}</p>
 
         <div class="icon">
 
-            <a href="{{ job.recruiterFb}}" target="_blank"><img src="assets/fb.svg" alt=""></a>
-            <a href="{{ job.recruiterLinkedin}}" target="_blank"><img src="assets/linkedin.svg" alt=""></a>
-            <a href="recruiterIg" target="_blank"><img src="assets/instagram.svg" alt=""></a>
-            <a href="recruiterWebsite" target="_blank"><img src="assets/web.svg" alt=""></a>
+            <a href="{{ job.officeFb}}" target="_blank"><img src="assets/fb.svg" alt=""></a>
+            <a href="{{ job.officeLinkedIn}}" target="_blank"><img src="assets/linkedin.svg" alt=""></a>
+            <a href="officeIg" target="_blank"><img src="assets/instagram.svg" alt=""></a>
+            <a href="officeWebsite" target="_blank"><img src="assets/web.svg" alt=""></a>
         </div>
     </div>
 </div>

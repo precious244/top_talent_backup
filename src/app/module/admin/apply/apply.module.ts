@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ApplyRoutingModule } from './apply-routing.module';
 import { ApplyComponent } from './apply.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -13,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     ApplyRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class ApplyModule { }

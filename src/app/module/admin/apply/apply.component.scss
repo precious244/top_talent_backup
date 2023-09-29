@@ -25,7 +25,16 @@ a {
     text-align: center;
 }
 
-.hw {
+.button-back {
+    color: $gray;
+    margin-top: 30px;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 36px;
+    cursor: pointer;
+}
+
+.text-title {
     margin-top: 30px;
     font-weight: 900;
     font-size: 25px;
@@ -39,7 +48,7 @@ a {
     top: 153px;
 }
 
-.hw1 {
+.text-sub-title {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -86,17 +95,17 @@ input[type="file"] {
     display: none;
 }
 
-label {
-    display: block;
-    position: relative;
-    background-color: #025bee;
-    color: #ffffff;
-    font-size: 18px;
-    text-align: center;
-    padding-top: 28px;
-    margin: auto;
-    cursor: pointer;
-}
+// label {
+//     display: block;
+//     position: relative;
+//     background-color: #025bee;
+//     color: #ffffff;
+//     font-size: 18px;
+//     text-align: center;
+//     padding-top: 28px;
+//     margin: auto;
+//     cursor: pointer;
+// }
 
 .btn-1 {
     height: 45px;
@@ -108,3 +117,60 @@ label {
 .p {
     margin-top: 28px;
 }
+
+.title-screening {
+    color: var(--black-main, #1B1B1B);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.section-white {
+    background-color: white;
+    border-radius: 15px;
+    border: 1px solid var(--gray-placeholder, #95979D);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.sub-title {
+    color: var(--black-main, #1B1B1B);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.label-text {
+    color: var(--black-main, #1B1B1B);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.input-text {
+    width: 99%;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 8px 8px 0px 0px;
+    background: var(--grey-field, #F2F2F2);
+    border: none;
+    border-bottom: 2px solid #44A0F4;
+}
+
+.input-text:focus {
+    outline: none; /* Menghapus border (focus outline) saat elemen mendapat fokus */
+}
+
+.character-count {
+    position: absolute;
+    font-size: 12px;
+    right: 50px;
+    bottom: 40px;
+}
+
+
+
+  

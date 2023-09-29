@@ -208,6 +208,43 @@
                         </div>
                     </div>
                 </section>
+                <section class="section-white">
+                    <div class="d-flex">
+                        <h4 class="me-auto">Language</h4>
+                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
+                            Edit </button>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary rounded-pill me-2">
+                                English
+                            </button>
+                            <button type="button" class="btn btn-outline-primary rounded-pill me-2">
+                                Indonesia
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <section class="upload-cv section-white">
+                    <div class="d-flex">
+                        <h4 class="me-auto">Certificate</h4>
+                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
+                            <img src="assets/plus.svg" alt="">
+                            <span> Add Certificate</span></button>
+                    </div>
+                    <div class="row user-job-detail mt-4">
+                        <p href="#" target="_blank"><img src="assets/cv-before.png" class="text-color me-1">
+                            {{'No certificate is uploaded' }}
+                        </p>
+                        <br>
+                        <br>
+                        <label for="" class="form-label">
+                            <i class="text-secondary">
+                                Acceptable file type only PDF that is up to 10MB.
+                            </i>
+                        </label>
+                    </div>
+                </section>
                 <section class="upload-cv section-white" *ngIf="!isUploaded">
                     <div class="d-flex">
                         <h4 class="me-auto">CV or Resume</h4>
@@ -239,9 +276,9 @@
                                 {{profile.jobseekerResumeName}}</p>
                             <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit ms-auto"
                                 (click)=" openUploadCv()">
-                                Edit </button>
+                                Update </button>
                             <button class="btn btn-outline-danger rounded-pill px-3 py-1 ms-3 me-1 fw-bold px-4"
-                                (click)=" resetCv()">
+                                (click)=" resetCv()" hidden>
                                 Delete </button>
                         </div>
                         <br>
@@ -311,6 +348,5 @@
                 </section>
             </div>
         </div>
-
     </div>
 </section>
