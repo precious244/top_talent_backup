@@ -30,17 +30,17 @@
             ],
             "styles": [
               "src/styles.scss",
-              "../my-app-pretty/node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/ng-multiselect-dropdown.theme.scss",
               "node_modules/sweetalert2/src/sweetalert2.scss"
               
             ],
             "scripts": [ 
-              "../my-app-pretty/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "../my-app-pretty/node_modules/jquery/dist/jquery.min.js",
-              "../my-app-pretty/node_modules/popper.js/dist/umd/popper.min.js",
-             "../my-app-pretty/node_modules/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.min.js"
             ]
           },
           "configurations": {
