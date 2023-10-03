@@ -57,41 +57,44 @@
     <div class="row mt-5 ms-4 me-4">
         <h4 class="title-screening">Screening Questions</h4>
     </div>
-    <div *ngFor="let screening of screeningQuestions">
+    <div *ngFor="let screening of screeningQuestions; let i = index">
         <div class="card mt-4 ms-4 me-4 section-white">
-            Untuk pertanyaan tipe teks
+            <!-- Untuk pertanyaan tipe teks -->
             <div class="card-body" *ngIf="screening.questionType === 'Text'">
-                <p class="label-text">{{screening.questionName}}
+                <p class="label-text">{{ screening.questionName }}
                     <span style="color: var(--red-notif, #EB5757);">*</span>
                 </p>
                 <div class="input-container">
-                    <input formControlName="payloads"  class="input-text" [(ngModel)]="textInput" (input)="countCharacters()" placeholder="Your Answer" maxlength="200">
-                    <div class="character-count">{{ characterCount }} / 200</div>       
-                </div>
+                    <input formControlName="questionAnswers" [formControl]="questionAnswerControl" class="input-text"
+                           placeholder="Your Answer" maxlength="200">
+                    <div class="character-count">{{ characterCount }} / 200</div>
+                  </div>
             </div>
             <!-- Untuk pertanyaan tipe opsi -->
             <div class="card-body" *ngIf="screening.questionType === 'Options'">
-                <p class="label">{{screening.questionName}}
+                <p class="label-text">{{ screening.questionName }}
                     <span style="color: var(--red-notif, #EB5757);">*</span>
                 </p>
                 <div class="form-check">
-                    <input formControlName="payloads.questionAnswer" value="Yes" class="form-check-input" type="radio">
+                    <input [formControlName]="'questionAnswers' + i" value="Yes" class="form-check-input"
+                           type="radio">
                     <label class="form-check-label">
-                    Yes
+                        Yes
                     </label>
                 </div>
                 <div class="form-check">
-                    <input formControlName="payloads.questionAnswer" value="No" class="form-check-input" type="radio">
+                    <input [formControlName]="'questionAnswers' + i" value="No" class="form-check-input"
+                           type="radio">
                     <label class="form-check-label">
                         No
                     </label>
-                </div> 
+                </div>
             </div>
         </div>
-    </div>
+    </div>      
     <div class="row me-4">
         <div class="d-flex justify-content-end">
-            <button (click)="applyJob()" class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button">
+            <button (click)="continueToStep3()" class="btn bg-primary rounded-pill px-5 py-2 font-style-btn btn-user btn-block" type="button">
                 Continue
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M13.2688 3.6689C13.5689 3.36894 13.9758 3.20044 14.4 3.20044C14.8243 3.20044 15.2312 3.36894 15.5312 3.6689L22.7312 10.8689C23.0312 11.1689 23.1997 11.5758 23.1997 12.0001C23.1997 12.4244 23.0312 12.8313 22.7312 13.1313L15.5312 20.3313C15.2295 20.6228 14.8253 20.784 14.4058 20.7804C13.9863 20.7767 13.585 20.6085 13.2883 20.3118C12.9917 20.0152 12.8234 19.6139 12.8198 19.1943C12.8161 18.7748 12.9774 18.3707 13.2688 18.0689L17.6 13.6001H2.40005C1.9757 13.6001 1.56874 13.4315 1.26868 13.1315C0.96862 12.8314 0.800049 12.4244 0.800049 12.0001C0.800049 11.5758 0.96862 11.1688 1.26868 10.8687C1.56874 10.5687 1.9757 10.4001 2.40005 10.4001H17.6L13.2688 5.9313C12.9689 5.63125 12.8004 5.22436 12.8004 4.8001C12.8004 4.37584 12.9689 3.96894 13.2688 3.6689Z" fill="white"/>

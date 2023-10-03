@@ -64,14 +64,18 @@ export class JobService {
   }
 
   public applyJob(body: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+    const params = new HttpParams()
+      .set('jobseekerId', body.jobseekerId)
+      .set('jobId', body.jobId)
+      .set('screeningIds', body.screeningIds)
+      .set('questionAnswers', body.questionAnswers);
 
-    console.log(JSON.stringify(body))
-
-    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/apply-job-posting', JSON.stringify(body), httpOptions);
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/apply-job-posting-v2', params, { headers: this.headers} );
   }
+
+  postJob(body: FormData): Observable<any> {
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/apply-job-posting-v2', body, { headers: this.headers});
+  }
+  
+  
 }

@@ -9,7 +9,7 @@ import { ApplyModel } from './model/apply.model';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ProfileModel } from '../profile/model/profile.model';
 import { ModalPersonalInformationComponent } from 'src/app/shared/component/modal/modal-personal-information/modal-personal-information.component';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-apply',
@@ -39,7 +39,10 @@ export class ApplyComponent implements OnInit {
   profile: any = {};
   screeningId!:number;
   form!: FormGroup;
+  questionAnswers: string[] = [];
   
+  
+  questionAnswerControl: FormControl = new FormControl('');
   countCharacters() {
     // Menghitung jumlah karakter
     const maxLength = 200;
@@ -64,6 +67,11 @@ export class ApplyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.questionAnswerControl.valueChanges.subscribe(value => {
+      this.textInput = value;
+      this.countCharacters();
+    })
+
     if (this.authService.isLogin()) {
       this.userData = this.authService.loadUserData()
     }
@@ -83,18 +91,13 @@ export class ApplyComponent implements OnInit {
       let id = data.params.id,
         params = {
           jobId: id,
-          jobStatus: "visible",
+          jobStatus: "visible"
         }
-
       this.jobService.getDetailJob(params).subscribe(
         (response: any) => {
           this.applyModel.applyModelForm.patchValue(response.data);
           this.screeningQuestions = response.data.screeningQuestions
-          console.log(this.screeningQuestions)
-        },
-        (error) => {
         })
-
       this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
       this.applyModel.applyForm.controls['jobId'].setValue(data.params);
       this.uploadCvService.getApplyStatus(this.applyModel.applyForm.value, params).subscribe(
@@ -108,51 +111,75 @@ export class ApplyComponent implements OnInit {
             } else if (response.message === 'Step 4') {
               this.step3 = true;
             }
-          },
-          (error) => {
-            // this.isApplied = false;
           })
         })
-        this.screeningQuestions = [
-          { screeningId: '', questionAnswer: '' }
-        ]
         this.activatedRoute.paramMap.subscribe((data: any) => {
           let id = data.params.id,
             params = {
-              jobId: id,
-            }    
-        this.form = this.fb.group({
-          jobseekerId: this.userData.jobseekerId,
-          jobId:params,
-          payloads: [this.screeningQuestions]
-        })
-      })
-    }
-
-      applyJob() {
-        this.activatedRoute.paramMap.subscribe((data: any) => {
-          let id = data.params.id,
-            params = {
-              jobId: id,
-              jobStatus: "visible",
-            };
-      
-          this.jobService.getDetailJob(params).subscribe(
-            (response: any) => {
-              this.applyModel.applyModelForm.patchValue(response.data);
-              // Sekarang Anda bisa melakukan permintaan untuk mengirim data aplikasi
-              this.jobService.applyJob(this.form.value).subscribe(
-                (response) => {
-                  console.log(this.applyModel.applyModelForm.value);
-                  // Handle respons dari pengiriman aplikasi di sini
-                }
-              );
+              jobId: id
             }
-          );
+          this.form = this.fb.group({
+            jobseekerId: this.userData.jobseekerId,
+            jobId: params.jobId,
+            screeningIds: '',
+            questionAnswers: ''
+          });
         });
+        // Inisialisasi form dengan form controls untuk pertanyaan-pertanyaan screening
+        // for (let i = 0; i < this.screeningQuestions.length; i++) {
+        //   const questionType = this.screeningQuestions[i].questionType;
+        //   const formControlName = `questionAnswers.${i}`;
+
+        //   if (questionType === 'Text') {
+        //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Text
+        //   } else if (questionType === 'Options') {
+        //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Options
+        //   }
+        // }
+      }
+
+      applyJob(event: Event) {
+        // Call the getDetailJob method to fetch screening questions
+        this.jobService.getDetailJob(this.form.value).subscribe(
+          (response: any) => {
+            this.applyModel.applyModelForm.patchValue(response.data);
+            this.screeningQuestions = response.data.screeningQuestions;
+    
+            // Get the screeningIds from the response and set them
+            const screeningIds = this.screeningQuestions.map((screening: any) => screening.screeningId);
+      
+            // Set the values in the form controls
+            this.form.patchValue({
+              screeningIds: screeningIds,
+            });
+      
+            console.log(screeningIds); // Log the screeningIds
+          // Di dalam loop yang menampilkan pertanyaan screening
+          // for (let i = 0; i < this.screeningQuestions.length; i++) {
+          //   const questionType = this.screeningQuestions[i].questionType;
+          //   const formControlName = `questionAnswers.${i}`;
+
+          //   // Tambahkan form control sesuai dengan jenis pertanyaan (Text atau Options)
+          //   if (questionType === 'Text') {
+          //     const textFormControl = this.fb.control(''); 
+          //     this.form.addControl(formControlName, textFormControl); // Tambahkan form control ke dalam form group
+          //   } else if (questionType === 'Options') {
+          //     const optionsFormControl = this.fb.control('');
+          //     this.form.addControl(formControlName, optionsFormControl); // Tambahkan form control ke dalam form group
+          //   }
+          // }
+            // Now, you can call the applyJob method with the updated form value
+            this.jobService.applyJob(this.form.value).subscribe(
+              (response) => {
+                event.preventDefault();
+                // Handle the response here if needed
+              },
+            );
+          },
+        );
       }
       
-
+        
   openEditPersonalInformation() {
       const modal = this.modalService.open(
         ModalPersonalInformationComponent, { size: 'lg' });
