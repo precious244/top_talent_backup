@@ -67,14 +67,10 @@ export class ApplyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.questionAnswerControl.valueChanges.subscribe(value => {
-    //   this.textInput = value;
-    //   this.countCharacters();
-    // })
-
     if (this.authService.isLogin()) {
       this.userData = this.authService.loadUserData()
     }
+
     this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
     this.profileService.getUserProfile(this.applyModel.applyForm.value).subscribe(
       (response: any) => {
@@ -87,17 +83,37 @@ export class ApplyComponent implements OnInit {
       },
       (error) => {
       })
+
     this.activatedRoute.paramMap.subscribe((data: any) => {
       let id = data.params.id,
         params = {
           jobId: id,
           jobStatus: "visible"
         }
+
       this.jobService.getDetailJob(params).subscribe(
         (response: any) => {
           this.applyModel.applyModelForm.patchValue(response.data);
           this.screeningQuestions = response.data.screeningQuestions
+
+          // Initialize the form with dynamic form controls
+          this.form = this.fb.group({
+            jobseekerId: this.userData.jobseekerId,
+            jobId: params.jobId,
+            payloads: this.fb.array([]),
+          });
+
+          const payloadsFormArray = this.form.get('payloads') as FormArray;
+
+          this.screeningQuestions.forEach((question: { screeningId: any; questionAnswer: any; }) => {
+            const payloadGroup = this.fb.group({
+              screeningId: [question.screeningId], // You can set a default value if needed
+              questionAnswer: [question.questionAnswer], // You can set a default value if needed
+            });
+            payloadsFormArray.push(payloadGroup);
+          });
         })
+
       this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
       this.applyModel.applyForm.controls['jobId'].setValue(data.params);
       this.uploadCvService.getApplyStatus(this.applyModel.applyForm.value, params).subscribe(
@@ -113,47 +129,11 @@ export class ApplyComponent implements OnInit {
           }
         })
     })
-    this.activatedRoute.paramMap.subscribe((data: any) => {
-      let id = data.params.id,
-        params = {
-          jobId: id
-        }
-      this.form = this.fb.group({
-        jobseekerId: this.userData.jobseekerId,
-        jobId: params.jobId,
-        payloads: this.fb.array([])
-      });
-      // Populate the payloads array with the sample data
-      this.addPayload({ questionAnswer: 'Yes' });
-    });
-    // Inisialisasi form dengan form controls untuk pertanyaan-pertanyaan screening
-    // for (let i = 0; i < this.screeningQuestions.length; i++) {
-    //   const questionType = this.screeningQuestions[i].questionType;
-    //   const formControlName = `questionAnswers.${i}`;
-
-    //   if (questionType === 'Text') {
-    //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Text
-    //   } else if (questionType === 'Options') {
-    //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Options
-    //   }
-    // }
   }
-
-  // Helper method to add a new payload FormGroup
-  addPayload(payloadData: any) {
-    const payloadGroup = this.fb.group({
-      questionAnswer: [payloadData.questionAnswer]
-    });
-    this.payloads.push(payloadGroup);
-  }
-
-  get payloads(): FormArray {
-    return this.form.get('payloads') as FormArray;
-  }
-
   applyJob(event: Event) {
     console.log(this.form.value);
     return;
+
     // Call the getDetailJob method to fetch screening questions
     this.jobService.getDetailJob(this.form.value).subscribe(
       (response: any) => {
