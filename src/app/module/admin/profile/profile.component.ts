@@ -20,6 +20,9 @@ import { ModalEditEducationComponent } from 'src/app/shared/component/modal/moda
 import { ModalEditSkillsComponent } from 'src/app/shared/component/modal/modal-edit-skills/modal-edit-skills.component';
 import { ModalEditSalaryComponent } from 'src/app/shared/component/modal/modal-edit-salary/modal-edit-salary.component';
 import { ModalUploadPhotoComponent } from 'src/app/shared/component/modal/modal-upload-photo/modal-upload-photo.component';
+import { ModalAddLanguageComponent } from 'src/app/shared/component/modal/modal-add-language/modal-add-language.component';
+import { ModalAddCertificateComponent } from 'src/app/shared/component/modal/modal-add-certificate/modal-add-certificate.component';
+import { ModalEditCertificateComponent } from 'src/app/shared/component/modal/modal-edit-certificate/modal-edit-certificate.component';
 
 @Pipe({
   name: 'currencyFormat'
@@ -28,15 +31,20 @@ export class CurrencyFormat {
   transform(value: number,
       decimalLength: number = 0, 
       chunkDelimiter: string = '.', 
-      decimalDelimiter:string = ',',
+      decimalDelimiter: string = ',',
       chunkLength: number = 3): string {
+
+      if (value == null) {
+          return ''; // Handle the case when value is null or undefined
+      }
 
       let result = '\\d(?=(\\d{' + chunkLength + '})+' + (decimalLength > 0 ? '\\D' : '$') + ')';
       let num = value.toFixed(Math.max(0, ~~decimalLength));
 
-      return (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result, 'g'), '$&' + chunkDelimiter) ;
+      return (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result, 'g'), '$&' + chunkDelimiter);
   }
 }
+
 
 @Component({
   selector: 'app-profile',
@@ -44,7 +52,7 @@ export class CurrencyFormat {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
+  @Input() submitCertificate: any;
   profileModel = new ProfileModel();
   modalPersonalModel = new ModalPersonalModel();
   educationModel = new ModalEducationModel();
@@ -254,7 +262,6 @@ export class ProfileComponent implements OnInit {
     modal.componentInstance.data = this.profileModel.userProfile;
   }
 
-
   saveCv() {
     this.profileModel.uploadCVForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
     this.uploadCvService.upload(this.profileModel.uploadCVForm.value).subscribe(
@@ -276,6 +283,12 @@ export class ProfileComponent implements OnInit {
       })
   }
 
+  openModalAddLanguage() {
+    const modal = this.modalService.open(
+      ModalAddLanguageComponent, { size: 'lg' }
+    );
+  }
+
   openUploadCv() {
     const modal = this.modalService.open(
       ProfileUploadCvComponent, { size: 'md' }
@@ -285,5 +298,21 @@ export class ProfileComponent implements OnInit {
     modal.componentInstance.saveCv = () => { this.saveCv() }
     modal.componentInstance.resetCv = () => { this.resetCv() }
 
+  }
+
+  openModalAddCertificate() {
+    const modal = this.modalService.open( 
+      ModalAddCertificateComponent, { size: 'lg' }
+      );
+    modal.componentInstance.data = this.profileModel.userProfile;
+    modal.componentInstance.certificateFile = this.profileModel.uploadCertificateForm.get('certificateFile');
+  }
+
+  openEditCertificate(k: any) {
+    this.profileService.setIndex(k)
+    const modal = this.modalService.open(
+      ModalEditCertificateComponent, { size: 'lg' }
+    );
+    modal.componentInstance.data = this.profileModel.userProfile;
   }
 }

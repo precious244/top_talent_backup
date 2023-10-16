@@ -73,7 +73,7 @@ export class ProfileUploadCvComponent {
   upload() {
     this.saveCv()
     this.activeModal.dismiss('Cross click');
-    // window.location.reload();
+    window.location.reload();
   }
 
   close() {

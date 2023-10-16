@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="col-12 col-sm-12 col-xs-10 col-md-2 col-xl-2">
                                     <button (click)="openEditExperience(j)"
-                                        class="btn btn-sm btn-primary rounded-pill px-4 ms-auto">Edit </button>
+                                        class="btn btn-sm btn-primary rounded-pill px-4 ms-auto me-2">Edit </button>
                                     <button (click)="deleteExp(j)"
                                         class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
                                 </div>
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-12 col-sm-12 col-xs-10 col-md-2 col-xl-2 ">
                                     <button (click)="openEditEducation(i)"
-                                        class="btn btn-sm btn-primary rounded-pill px-4 ms-auto">Edit </button>
+                                        class="btn btn-sm btn-primary rounded-pill px-4 ms-auto me-2">Edit </button>
                                     <button (click)="deleteEdu(i)"
                                         class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
                                 </div>
@@ -211,26 +211,24 @@
                 <section class="section-white language">
                     <div class="d-flex">
                         <h4 class="me-auto">Language</h4>
-                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
+                        <button (click)="openModalAddLanguage()" class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
                             Edit </button>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-outline-primary rounded-pill me-2">
-                                English
-                            </button>
-                            <button type="button" class="btn btn-outline-primary rounded-pill me-2">
-                                Indonesia
+                        <div class="col-md-8">
+                            <button *ngFor="let item of profile.languages" type="button" class="btn btn-outline-primary rounded-pill me-2">
+                                {{item.languageName}}
                             </button>
                         </div>
                     </div>
                 </section>
-                <section class="upload-cv section-white">
+                <section class="upload-cv section-white" *ngIf="profile.jobseekerCertifications.length === 0">
                     <div class="d-flex">
                         <h4 class="me-auto">Certificate</h4>
-                        <button class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
+                        <button (click)="openModalAddCertificate()" class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
                             <img src="assets/plus.svg" alt="">
-                            <span> Add Certificate</span></button>
+                            <span> Add Certificate</span>
+                        </button>
                     </div>
                     <div class="row user-job-detail mt-4">
                         <p href="#" target="_blank"><img src="assets/cv-before.png" class="text-color me-1">
@@ -243,6 +241,61 @@
                                 Acceptable file type only PDF that is up to 10MB.
                             </i>
                         </label>
+                    </div>
+                </section>
+                <section class="section-white" *ngIf="profile.jobseekerCertifications">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex">
+                                <h4 class="me-auto">
+                                    Certificate
+                                </h4>
+                                <button (click)="openModalAddCertificate()" class="btn btn-sm btn-primary rounded-pill px-4 btn-edit">
+                                    <img src="assets/plus.svg" alt="">
+                                    <span> Add Certificate</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" *ngFor="let certificate of profile.jobseekerCertifications; let k = index">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <div class="col-12 col-sm-12 col-xs-10 col-md-10 col-xl-10">
+                                    <h5 style="color: var(--Gray-1, #333); font-weight: 600; font-size: 18px;">
+                                        {{certificate.certificateName}}
+                                    </h5>
+                                </div>
+                                <div class="me-4">
+                                    <button (click)="openEditCertificate(k)" class="btn btn-sm btn-primary rounded-pill px-4 ms-auto me-2">Edit </button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
+                                </div>
+                            </div>
+                            <h5 style="color: var(--Gray-1, #333); font-weight: 600; font-size: 16px;">
+                                {{certificate.certificateIssuer}}
+                            </h5>
+                            <h5 style="color: var(--Gray-1, #333); font-weight: 600; font-size: 16px;">
+                                Issued {{certificate.issuedMonth}} {{certificate.issuedYear}}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
+                                    <circle cx="2" cy="2" r="2" fill="#1B1B1B"/>
+                                  </svg>
+                                  <span>
+                                    Expired {{certificate.expiredMonth}} {{certificate.expiredYear}}
+                                  </span>
+                            </h5>
+                            <a href="{{certificate.credentialLink}}" style="color: var(--blue-main, #44A0F4); font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M8.33366 4.16536H6.83366C5.90033 4.16536 5.43366 4.16536 5.07699 4.34703C4.76337 4.50677 4.5084 4.76174 4.34866 5.07536C4.16699 5.43203 4.16699 5.8987 4.16699 6.83203V13.1654C4.16699 14.0987 4.16699 14.5654 4.34866 14.922C4.50845 15.2356 4.7634 15.4906 5.07699 15.6504C5.43283 15.832 5.89949 15.832 6.83116 15.832H13.1695C14.1012 15.832 14.567 15.832 14.9228 15.6504C15.237 15.4904 15.492 15.2354 15.652 14.922C15.8337 14.5654 15.8337 14.0995 15.8337 13.1679V11.6654M16.667 7.4987V3.33203M16.667 3.33203H12.5003M16.667 3.33203L10.8337 9.16536" stroke="#44A0F4" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Credential Link
+                            </a>
+                            <br>
+                            <a href="{{certificate.certificateFile}}" type="button" class="me-2 mt-2 btn btn-outline-info btn-skill" style="border-radius: 36px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M11 17H7C5.61667 17 4.43733 16.5123 3.462 15.537C2.48667 14.5617 1.99933 13.3827 2 12C2 10.6167 2.48767 9.43733 3.463 8.462C4.43833 7.48667 5.61733 6.99933 7 7H11V9H7C6.16667 9 5.45833 9.29167 4.875 9.875C4.29167 10.4583 4 11.1667 4 12C4 12.8333 4.29167 13.5417 4.875 14.125C5.45833 14.7083 6.16667 15 7 15H11V17ZM8 13V11H16V13H8ZM13 17V15H17C17.8333 15 18.5417 14.7083 19.125 14.125C19.7083 13.5417 20 12.8333 20 12C20 11.1667 19.7083 10.4583 19.125 9.875C18.5417 9.29167 17.8333 9 17 9H13V7H17C18.3833 7 19.5627 7.48767 20.538 8.463C21.5133 9.43833 22.0007 10.6173 22 12C22 13.3833 21.5123 14.5627 20.537 15.538C19.5617 16.5133 18.3827 17.0007 17 17H13Z" fill="#44A0F4"/>
+                                </svg>
+                                Show certificate
+                            </a>
+                        </div>
                     </div>
                 </section>
                 <section class="upload-cv section-white" *ngIf="!isUploaded">

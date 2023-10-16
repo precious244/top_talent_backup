@@ -28,7 +28,7 @@ export class ModalAddSalaryComponent implements OnInit {
   profile: any = {};
   value: any;
   ngModelExample: number = 10;
-  public autoSaveEnabled = false;
+  autoSaveEnabled = false;
   formatOnlyOnBlur: boolean = false;
 
   constructor(

@@ -87,99 +87,107 @@ export class ApplyComponent implements OnInit {
       },
       (error) => {
       })
-    this.activatedRoute.paramMap.subscribe((data: any) => {
-      let id = data.params.id,
-        params = {
-          jobId: id,
-          jobStatus: "visible"
-        }
-      this.jobService.getDetailJob(params).subscribe(
-        (response: any) => {
-          this.applyModel.applyModelForm.patchValue(response.data);
-          this.screeningQuestions = response.data.screeningQuestions
-        })
-      this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
-      this.applyModel.applyForm.controls['jobId'].setValue(data.params);
-      this.uploadCvService.getApplyStatus(this.applyModel.applyForm.value, params).subscribe(
-        (response: any) => {
+      this.activatedRoute.paramMap.subscribe((data: any) => {
+        let id = data.params.id,
+          params = {
+            jobId: id,
+            jobStatus: "visible"
+          }
+  
+        this.jobService.getDetailJob(params).subscribe(
+          (response: any) => {
+            this.applyModel.applyModelForm.patchValue(response.data);
+            this.screeningQuestions = response.data.screeningQuestions
+            console.log(this.screeningQuestions);
+            // Initialize the form with dynamic form controls
+            this.form = this.fb.group({
+              jobseekerId: this.userData.jobseekerId,
+              jobId: params.jobId,
+              payloads: this.fb.array([]),
+            });
+  
+            const payloadsFormArray = this.form.get('payloads') as FormArray;
+  
+            this.screeningQuestions.forEach((question: { screeningId: any; questionAnswer: any; }) => {
+              const payloadGroup = this.fb.group({
+                screeningId: [question.screeningId], // You can set a default value if needed
+                questionAnswer: [question.questionAnswer], // You can set a default value if needed
+              });
+              payloadsFormArray.push(payloadGroup);
+            });
+          })
+  
+        this.applyModel.applyForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
+        this.applyModel.applyForm.controls['jobId'].setValue(data.params);
+        this.uploadCvService.getApplyStatus(this.applyModel.applyForm.value, params).subscribe(
+          (response: any) => {
             if (response.message === 'Step 1') {
               this.step1 = true;
             } else if (response.message === 'Step 2') {
               this.isUploaded = true;
             } else if (response.message === 'Step 3') {
-              this.step2 = true;
+              this.step3 = true;
             } else if (response.message === 'Step 4') {
               this.step3 = true;
             }
           })
-        })
-        this.activatedRoute.paramMap.subscribe((data: any) => {
-          let id = data.params.id,
-            params = {
-              jobId: id
-            }
-          this.form = this.fb.group({
-            jobseekerId: this.userData.jobseekerId,
-            jobId: params.jobId,
-            screeningIds: '',
-            questionAnswers: ''
-          });
-        });
-        // Inisialisasi form dengan form controls untuk pertanyaan-pertanyaan screening
-        // for (let i = 0; i < this.screeningQuestions.length; i++) {
-        //   const questionType = this.screeningQuestions[i].questionType;
-        //   const formControlName = `questionAnswers.${i}`;
+      })
+    }
 
-        //   if (questionType === 'Text') {
-        //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Text
-        //   } else if (questionType === 'Options') {
-        //     this.form.controls[formControlName] = this.fb.control(''); // Tambahkan form control Options
-        //   }
-        // }
+    onUpload(): void {
+      this.applyModel.applyModelForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
+      this.uploadCvService.upload(this.applyModel.applyModelForm.value).subscribe(
+        (event: any) => {
+          if (typeof (event) === 'object') {
+            this.isUploaded = true;
+          }
+        }
+      )
+    }
+  
+    continueToStep2(){
+      this.step2 = true;
+      this.isUploaded = false;
+    }
+
+    applyJob() {
+      this.activatedRoute.paramMap.subscribe((data: any) => {
+      let id = data.params.id
+      this.form.controls['jobseekerId'].setValue(this.userData.jobseekerId)
+      this.form.controls['jobId'].setValue(id)
+      console.log(this.form.value);
+      this.jobService.applyJob(this.form.value).subscribe(
+        (response) => {
+          this.step3 = true;
+          this.step2 = false
+          this.isUploaded = false;
+        },
+        (error) => {
+          console.error("Error", error)
+        }
+      );
+    })
+  }
+  
+  submitApplication() {
+    this.activatedRoute.paramMap.subscribe((data: any) => {
+    let id = data.params.id
+    this.form.controls['jobseekerId'].setValue(this.userData.jobseekerId)
+    this.form.controls['jobId'].setValue(id)
+    this.jobService.submitApplication(this.form.value).subscribe(
+      (response) => {
+        this.step3 = false;
+        this.step4 = true
+      },
+      (error) => {
+        console.error("Error", error)
       }
+    );
+  })}     
 
-      applyJob(event: Event) {
-        // Call the getDetailJob method to fetch screening questions
-        this.jobService.getDetailJob(this.form.value).subscribe(
-          (response: any) => {
-            this.applyModel.applyModelForm.patchValue(response.data);
-            this.screeningQuestions = response.data.screeningQuestions;
-    
-            // Get the screeningIds from the response and set them
-            const screeningIds = this.screeningQuestions.map((screening: any) => screening.screeningId);
-      
-            // Set the values in the form controls
-            this.form.patchValue({
-              screeningIds: screeningIds,
-            });
-      
-            console.log(screeningIds); // Log the screeningIds
-          // Di dalam loop yang menampilkan pertanyaan screening
-          // for (let i = 0; i < this.screeningQuestions.length; i++) {
-          //   const questionType = this.screeningQuestions[i].questionType;
-          //   const formControlName = `questionAnswers.${i}`;
-
-          //   // Tambahkan form control sesuai dengan jenis pertanyaan (Text atau Options)
-          //   if (questionType === 'Text') {
-          //     const textFormControl = this.fb.control(''); 
-          //     this.form.addControl(formControlName, textFormControl); // Tambahkan form control ke dalam form group
-          //   } else if (questionType === 'Options') {
-          //     const optionsFormControl = this.fb.control('');
-          //     this.form.addControl(formControlName, optionsFormControl); // Tambahkan form control ke dalam form group
-          //   }
-          // }
-            // Now, you can call the applyJob method with the updated form value
-            this.jobService.applyJob(this.form.value).subscribe(
-              (response) => {
-                event.preventDefault();
-                // Handle the response here if needed
-              },
-            );
-          },
-        );
-      }
-      
-        
+  routingToProfile() {
+    this.router.navigate([`/main/profile/${this.userData.jobseekerId}`])
+  }
   openEditPersonalInformation() {
       const modal = this.modalService.open(
         ModalPersonalInformationComponent, { size: 'lg' });
@@ -191,33 +199,6 @@ export class ApplyComponent implements OnInit {
       ModalUploadCvComponent, { size: 'md' });
     modal.componentInstance.file = this.applyModel.applyModelForm.controls['jobseekerResume'];
     modal.componentInstance.onUpload = () => { this.onUpload() }
-  }
-
-  onUpload(): void {
-    this.applyModel.applyModelForm.controls['jobseekerId'].setValue(this.userData.jobseekerId);
-    this.uploadCvService.upload(this.applyModel.applyModelForm.value).subscribe(
-      (event: any) => {
-        if (typeof (event) === 'object') {
-          this.isUploaded = true;
-        }
-      }
-    )
-  }
-
-  continueToStep2(){
-    this.step2 = true;
-    this.isUploaded = false;
-  }
-
-  continueToStep3(){
-    this.step3 = true;
-    this.step2 = false
-    this.isUploaded = false;
-  }
-
-  continueToStep4(){
-    this.step4 = true;
-    this.step3 = false;
   }
 
   // putUpload() {
@@ -237,11 +218,4 @@ export class ApplyComponent implements OnInit {
   //   )
   // }
 
-  routingToScreeningQuestion() {
-    this.router.navigate(['screening-question'])
-  }
-
-  routingToProfile() {
-    this.router.navigate([`/main/profile/${this.userData.jobseekerId}`])
-  }
 }

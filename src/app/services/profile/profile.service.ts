@@ -54,6 +54,11 @@ export class ProfileService {
     return this.http.get(url, { headers: this.headers});
   }
 
+  public getAllLanguage(): Observable<any> {
+    const url = 'http://54.251.83.205:9091/api/v1/jobseeker/language-list';
+    return this.http.get(url, { headers: this.headers});
+  }
+
   public addSalary(body: any): Observable<any> {
     const params = new HttpParams()
       .set('jobseekerId', body.jobseekerId)
@@ -67,15 +72,33 @@ export class ProfileService {
   }
 
   public editSkill(body: any): Observable<any> {
+
+    const token = this.authService.loadUserData().token;
+
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/add/skill', JSON.stringify(body), httpOptions);
+  }
+
+  public addLanguage(body: any): Observable<any> {
+
+    const token = this.authService.loadUserData().token;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       })
     };
 
     console.log(JSON.stringify(body))
 
-    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/add/skill', JSON.stringify(body), httpOptions);
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/add/languages', JSON.stringify(body), httpOptions);
   }
 
   editProfile(body: any): Observable<any> {
@@ -251,5 +274,38 @@ export class ProfileService {
     formData.append("jobseekerId", body.jobseekerId);
     formData.append("jobseekerImage", body.jobseekerImage);
     return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/user/update/image', formData, {headers: this.headers})
+  }
+
+  editCertificate(body: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("certificateId", body.certificateId)
+    formData.append("jobseekerId", body.jobseekerId)
+    formData.append("certificateFile", body.certificateFile)
+    formData.append("certificateName", body.certificateName)
+    formData.append("certificateIssuer", body.certificateIssuer)
+    formData.append("issuedMonth", body.issuedMonth)
+    formData.append("issuedYear", body.issuedYear)
+    formData.append("expiredMonth", body.expiredMonth)
+    formData.append("expiredYear", body.expiredYear)
+    formData.append("credentialLink", body.credentialLink)
+    return this.http.patch('http://54.251.83.205:9091/api/v1/jobseeker/edit-certification', formData, {headers: this.headers})
+  }
+
+  onUploadCertificate(body: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("jobseekerId", body.jobseekerId)
+    formData.append("certificateFile", body.certificateFile)
+    formData.append("certificateName", body.certificateName)
+    formData.append("certificateIssuer", body.certificateIssuer)
+    formData.append("issuedMonth", body.issuedMonth)
+    formData.append("issuedYear", body.issuedYear)
+    formData.append("expiredMonth", body.expiredMonth)
+    formData.append("expiredYear", body.expiredYear)
+    formData.append("credentialLink", body.credentialLink)
+    return this.http.patch('http://54.251.83.205:9091/api/v1/jobseeker/add-certification', formData, {headers: this.headers})
+  }
+
+   addCertificate(body: FormData): Observable<any> {
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/add-certification', body, {headers: this.headers});
   }
 }

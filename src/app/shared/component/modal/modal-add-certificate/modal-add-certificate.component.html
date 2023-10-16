@@ -1,0 +1,148 @@
+<div class="modal-dialog">
+    <div class="modal-content border-0">
+        <div class="modal-header border-0">
+            <h5 class="modal-title" id="exampleModalLabel">Add Certificate</h5>
+            <button (click)="confirmBox()" type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <form action="" [formGroup]="profileModel.uploadCertificateForm" class="m-4">
+            <div class="modal-body text-center">
+                <img [src]="url" alt="" loading="lazy">
+                <h5 class="mb-2">{{fileName == '' ?'Drop Your Certificate Here':fileName }}</h5>
+                <p class="text-center text-secondary" [style]="available">or</p>
+                <input #file (change)="onChange($event)" [class]="btnBg" type="button" [value]="status" accept="application/pdf">
+                <input formControlName="certificateFile" (change)="onChange($event)" class="hidden-input-file" type="file" accept="application/pdf">
+                <p class="text-danger mt-2">{{file_error}}</p>
+                <p class="text-secondary file-req">Acceptable file types are DOC, DOCX, PDF that is up to 10MB.</p>
+            </div>
+            <div class="row mb-3 ms-2 me-1">
+                <div class="col-12">
+                    <label for="exampleFormControlInput1" class="form-label">Name</label>
+                    <input formControlName="certificateName" type="text" class="form-control input" id="exampleFormControlInput1" placeholder="Ex: Project Management Certificate" required>
+                    <div *ngIf="f['certificateName'] && (f['certificateName'].touched || f['certificateName'].dirty)  &&  !f['certificateName'].valid">
+                        <div *ngIf="f['certificateName'].errors">
+                            <div class="text-three" *ngIf="!profileModel.uploadCertificateForm.controls['certificateName'].valid">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 ms-2 me-1">
+                <div class="col-12">
+                    <label for="exampleFormControlInput1" class="form-label">Certificate Issuer</label>
+                    <input formControlName="certificateIssuer" type="text" class="form-control input" id="exampleFormControlInput1" placeholder="Ex: Google" required>
+                    <div *ngIf="f['certificateIssuer'] && (f['certificateIssuer'].touched || f['certificateIssuer'].dirty)  &&  !f['certificateIssuer'].valid">
+                        <div *ngIf="f['certificateIssuer'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['certificateIssuer'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+            <div class="row mb-3 ms-2 me-1">
+                <div class="col-md-6">
+                    <label for="select" class="form-label">Issue Date</label>
+                    <select formControlName="issuedMonth" class="form-select input" name="" id="">
+                        <option value="" disabled selected hidden>Month</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    <div *ngIf="f['issuedMonth'] && (f['issuedMonth'].touched || f['issuedMonth'].dirty)  &&  !f['issuedMonth'].valid">
+                        <div *ngIf="f['issuedMonth'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['issuedMonth'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="select" class="form-label" style="visibility: hidden;">Issue Date</label>
+                    <select formControlName="issuedYear" class="form-select input" name="" id="">
+                        <option value="" hidden selected>Year</option>
+                        <option *ngFor="let year of endPeriodYearOptions" [value]="year">{{year}}</option>
+                    </select>
+                    <div *ngIf="f['issuedYear'] && (f['issuedYear'].touched || f['issuedYear'].dirty)  &&  !f['issuedYear'].valid">
+                        <div *ngIf="f['issuedYear'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['issuedYear'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 ms-2 me-1">
+                <div class="col-md-6">
+                    <label for="select" class="form-label">Expiration Date</label>
+                    <select formControlName="expiredMonth" class="form-select input" name="" id="">
+                        <option value="" disabled selected hidden>Month</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    <div *ngIf="f['expiredMonth'] && (f['expiredMonth'].touched || f['expiredMonth'].dirty)  &&  !f['expiredMonth'].valid">
+                        <div *ngIf="f['expiredMonth'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['expiredMonth'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="select" class="form-label" style="visibility: hidden;">Expiration Date</label>
+                    <select formControlName="expiredYear" class="form-select input" name="" id="">
+                        <option value="" hidden selected>Year</option>
+                        <option *ngFor="let year of endPeriodYearOptions" [value]="year">{{year}}</option>
+                    </select>
+                    <div *ngIf="f['expiredYear'] && (f['expiredYear'].touched || f['expiredYear'].dirty)  &&  !f['expiredYear'].valid">
+                        <div *ngIf="f['expiredYear'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['expiredYear'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 ms-2 me-1">
+                <div class="col-12">
+                    <label for="exampleFormControlInput1" class="form-label">Credential Link</label>
+                    <input formControlName="credentialLink" type="text" class="form-control input" id="exampleFormControlInput1" placeholder="" required>
+                    <div *ngIf="f['credentialLink'] && (f['credentialLink'].touched || f['credentialLink'].dirty)  &&  !f['credentialLink'].valid">
+                        <div *ngIf="f['credentialLink'].errors">
+                            <div *ngIf="profileModel.uploadCertificateForm.controls['credentialLink'].hasError('required')">
+                                <span style="color: #EB5757;">A field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button (click)="submitCertificate()" class="btn bg-primary rounded-pill px-5">
+                Submit
+            </button>
+            <!-- <button (click)="resetFileUploader()" class="btn btn-outline-danger rounded-pill px-5">
+                Delete
+            </button> -->
+        </div>
+    </div>
+</div>

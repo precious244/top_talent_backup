@@ -1,6 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,14 @@ import { Observable } from 'rxjs';
 export class AddSalaryService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService : AuthService
   ) { }
+
+  token = this.authService.loadUserData().token;
+  headers = new HttpHeaders()
+    .set('Authorization', `Bearer ${this.token}`);
+
 
   public addSalary(body: any): Observable<any> {
     const params = new HttpParams()
@@ -37,7 +44,7 @@ export class AddSalaryService {
 
   public getCurrency(): Observable<any> {
     const url = 'http://54.251.83.205:9091/api/v1/jobseeker/education/get-currency';
-    return this.http.get(url);
+    return this.http.get(url, {headers: this.headers});
   }
 
   saveData(salaryData: any) {
@@ -47,7 +54,7 @@ export class AddSalaryService {
   public getSalaryId(body: any): Observable<unknown> {
     const params = new HttpParams()
       .set('jobseekerId', body.jobseekerId);
-    return this.http.get('http://54.251.83.205:9091/api/v1/jobseeker/salary/detail', { params: params });
+    return this.http.get('http://54.251.83.205:9091/api/v1/jobseeker/salary/detail', { params: params, headers: this.headers});
   }
 
   public updateSalary(body: any): Observable<any> {
@@ -60,7 +67,7 @@ export class AddSalaryService {
     formData.append('expectedMinimum', body.expectedMinimum)
     formData.append('expectedMaximum', body.expectedMaximum);
 
-    return this.http.patch('http://54.251.83.205:9091/api/v1/jobseeker/update/salary/', formData);
+    return this.http.patch('http://54.251.83.205:9091/api/v1/jobseeker/update/salary/', formData, {headers: this.headers});
   }
   
 

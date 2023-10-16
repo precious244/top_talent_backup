@@ -13,11 +13,27 @@ export class ProfileModel {
     }
     removeSkill(skill: any) {
     }
+    data = [];
 
     uploadCVForm = new FormGroup(
         {
             jobseekerId: new FormControl(0, [Validators.required]),
             jobseekerResume: new FormControl('', [Validators.required]),
+        }
+    );
+
+    uploadCertificateForm = new FormGroup(
+        {
+            certificateId: new FormControl(0, [Validators.required]),
+            jobseekerId: new FormControl(0, [Validators.required]),
+            certificateFile: new FormControl('', [Validators.required]),
+            certificateName: new FormControl('', [Validators.required]),
+            certificateIssuer: new FormControl('', [Validators.required]),
+            issuedMonth: new FormControl('', [Validators.required]),
+            issuedYear: new FormControl('', [Validators.required]),
+            expiredMonth: new FormControl('', [Validators.required]),
+            expiredYear: new FormControl('', [Validators.required]),
+            credentialLink: new FormControl('', [Validators.required]),
         }
     );
 
@@ -29,7 +45,6 @@ export class ProfileModel {
         }
     );
 
-    data = [];
     editSkillModelForm = new FormGroup(
         {
             jobseekerId: new FormControl(0, [Validators.required]),

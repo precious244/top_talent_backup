@@ -20,6 +20,11 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { ModalEditSkillsModule } from './modal/modal-edit-skills/modal-edit-skills.module';
 import { ModalEditSalaryComponent } from './modal/modal-edit-salary/modal-edit-salary.component';
 import { ModalUploadPhotoComponent } from './modal/modal-upload-photo/modal-upload-photo.component';
+import { ModalAddLanguageComponent } from './modal/modal-add-language/modal-add-language.component';
+import { MatIconModule } from '@angular/material/icon';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ModalAddCertificateComponent } from './modal/modal-add-certificate/modal-add-certificate.component';
+import { ModalEditCertificateComponent } from './modal/modal-edit-certificate/modal-edit-certificate.component';
 @NgModule({
   declarations: [
     ModalUploadCvComponent,
@@ -29,6 +34,9 @@ import { ModalUploadPhotoComponent } from './modal/modal-upload-photo/modal-uplo
     ModalEditEducationComponent,
     ModalEditSalaryComponent,
     ModalUploadPhotoComponent,
+    ModalAddLanguageComponent,
+    ModalAddCertificateComponent,
+    ModalEditCertificateComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +49,9 @@ import { ModalUploadPhotoComponent } from './modal/modal-upload-photo/modal-uplo
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    MatIconModule,
+    NgMultiSelectDropDownModule
   ],
   exports: [
     ModalPersonalInformationModule,

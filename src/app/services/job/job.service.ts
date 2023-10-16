@@ -49,11 +49,11 @@ export class JobService {
     return this.http.get('http://54.251.83.205:9091/api/v1/jobseeker/search', { params: params, headers: this.headers});
   }
 
-  putApplyJob(body: any, data: any): Observable<any> {
+  submitApplication(body: any): Observable<any> {
     const formData = new FormData();
-    formData.append("jobId", data.jobId)
+    formData.append("jobId", body.jobId)
     formData.append("jobseekerId", body.jobseekerId);
-    return this.http.put('http://54.251.83.205:9091/api/v1/jobseeker/job/apply', formData, { headers: this.headers} );
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/submit-application', formData, { headers: this.headers} );
   }
 
   public getAppliedDetailJob(body: any, data: any): Observable<unknown> {
@@ -64,6 +64,20 @@ export class JobService {
   }
 
   public applyJob(body: any): Observable<any> {
+
+    const token = this.authService.loadUserData().token;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.post('http://54.251.83.205:9091/api/v1/jobseeker/apply/apply-job-posting', JSON.stringify(body), httpOptions);
+  }
+
+  public applyJobV2(body: any): Observable<any> {
     const params = new HttpParams()
       .set('jobseekerId', body.jobseekerId)
       .set('jobId', body.jobId)
